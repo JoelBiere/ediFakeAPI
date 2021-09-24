@@ -1,5 +1,22 @@
-import * as department from './ImcDepartments';
-import * as imcc from './imcOperatingCompanies';
+
+const fs = require('fs');
+
+const department = {
+  operations: 'Operations',
+  ediTeam: 'EDI Team',
+  accounting: 'Accounting'
+}
+
+const imcc = {
+  ALL: 'allCompanies',
+  DNJ: 'dnjIntermodalServices',
+  AIS: 'atlanticIntermodalServices',
+  GIS: 'gulfIntermodalServices',
+  HM: 'h&mIntermodalServices',
+  IMCG: 'intermodalCartageCompany',
+  OIS: 'ohioIntermodalServices',
+  PDS: 'pacificDrayageServices'
+}
 
 const departmentAssigner = () => {
   const num = Math.floor(Math.random() * 3);
@@ -55,9 +72,17 @@ const dummyData = numOfData => {
       isResolved: false,
     });
   }
-  return returnData;
+  return {
+    errorData: returnData
+  };
 };
 
-const data = dummyData(30);
+const data = JSON.stringify(dummyData(30));
 
-export default data;
+fs.writeFile('db.json', data, (err) => {
+  if (err) {
+    throw err;
+  }
+  console.log("JSON data is saved")
+});
+
